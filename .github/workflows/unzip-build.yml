@@ -20,8 +20,8 @@ jobs:
         run: |
           mkdir project
           unzip -o ZENNO_Pandum_1H_Complete_Online_Build.zip -d project
-          ls -la project
-          test -f project/settings.gradle
+          ls -la project/ZENNO_Pandum_1H_Complete_Online_Build
+          test -f project/ZENNO_Pandum_1H_Complete_Online_Build/settings.gradle
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -35,11 +35,11 @@ jobs:
           gradle-version: '8.2'
 
       - name: Build ZENNO APK
-        working-directory: project
+        working-directory: project/ZENNO_Pandum_1H_Complete_Online_Build
         run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ZENNO-Pandum-1H-APK
-          path: project/app/build/outputs/apk/debug/app-debug.apk
+          path: project/ZENNO_Pandum_1H_Complete_Online_Build/app/build/outputs/apk/debug/app-debug.apk
