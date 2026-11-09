@@ -13,12 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get repository files
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract ZENNO project
+      - name: Extract project ZIP
         run: |
-          unzip -o ZENNO_Pandum_1H_Complete_Online_Build.zip -d .
+          mkdir project
+          unzip -o ZENNO_Pandum_1H_Complete_Online_Build.zip -d project
+          ls -la project
+          test -f project/settings.gradle
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -31,11 +34,12 @@ jobs:
         with:
           gradle-version: '8.2'
 
-      - name: Build APK
+      - name: Build ZENNO APK
+        working-directory: project
         run: gradle assembleDebug
 
-      - name: Save APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ZENNO-Pandum-1H-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: project/app/build/outputs/apk/debug/app-debug.apk
